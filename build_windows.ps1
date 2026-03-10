@@ -13,7 +13,14 @@ Set-Location $projectRoot
 $pythonExe = '.\.venv\Scripts\python.exe'
 
 if (-not (Test-Path $pythonExe)) {
-    throw 'Virtual environment not found. Create it first with: python -m venv .venv'
+    if ($SkipDeps) {
+        throw 'Virtual environment not found. Create it first with: python -m venv .venv'
+    }
+    Write-Host 'Virtual environment not found. Creating .venv...'
+    python -m venv .venv
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Failed to create virtual environment.'
+    }
 }
 
 if (-not $SkipDeps) {
