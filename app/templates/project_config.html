@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block screen %}project-config{% endblock %}
+{% block body_attrs %}data-project-id="{{ request.view_args.project_id }}"{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <div class="panel-header workspace-header">
+        <div>
+            <h2 id="config-project-title">{{ texts.project_configuration }}</h2>
+            <p id="config-readiness" class="workspace-subtitle"></p>
+        </div>
+        <div class="actions">
+            <a class="link-button ghost-button" href="{{ url_for('web.projects_screen') }}">{{ texts.back_to_projects }}</a>
+            <a class="link-button" id="go-workspace-link" href="#">{{ texts.go_to_finance }}</a>
+        </div>
+    </div>
+
+    <section class="grid two-columns">
+        <article class="panel inner-panel">
+            <h3>{{ texts.fiscal_years }}</h3>
+            <form id="fiscal-year-form" class="inline-form">
+                <input id="fiscal-year-code" placeholder="{{ texts.fiscal_year_code }}" required>
+                <input id="fiscal-year-name" placeholder="{{ texts.fiscal_year_name }}" required>
+                <input id="fiscal-year-start" type="date" required>
+                <input id="fiscal-year-end" type="date" required>
+                <button type="submit">{{ texts.create_fiscal_year }}</button>
+            </form>
+            <div id="fiscal-year-list" class="record-list"></div>
+        </article>
+
+        <article class="panel inner-panel">
+            <h3>{{ texts.chart_of_accounts }}</h3>
+            <form id="account-form" class="inline-form">
+                <input id="account-code" placeholder="{{ texts.account_code }}" required>
+                <input id="account-name-ar" placeholder="{{ texts.account_name_ar }}" required>
+                <input id="account-name-en" placeholder="{{ texts.account_name_en }}" required>
+                <select id="account-type" required></select>
+                <select id="statement-type" required></select>
+                <button type="submit">{{ texts.create_account }}</button>
+            </form>
+            <div id="account-list" class="record-list"></div>
+        </article>
+    </section>
+
+    <section class="panel inner-panel">
+        <h3>{{ texts.budgets }}</h3>
+        <form id="budget-form" class="inline-form budget-form-grid">
+            <input id="budget-name" placeholder="{{ texts.budget_name }}" required>
+            <select id="budget-fiscal-year" required></select>
+            <select id="budget-account" required></select>
+            <input id="budget-amount" type="number" min="0" step="0.01" placeholder="{{ texts.amount }}" required>
+            <button type="submit">{{ texts.create_budget }}</button>
+        </form>
+        <div id="budget-list" class="record-list"></div>
+    </section>
+
+    <section class="grid two-columns">
+        <article class="panel inner-panel">
+            <h3>{{ texts.create_user }}</h3>
+            <form id="user-form" class="inline-form">
+                <input id="user-full-name" placeholder="{{ texts.full_name }}" required>
+                <input id="user-email" type="email" placeholder="{{ texts.email }}" required>
+                <input id="user-password" type="text" placeholder="{{ texts.default_password }}" required>
+                <select id="user-company-role" required>
+                    <option value="employee">Employee</option>
+                    <option value="accountant">Accountant</option>
+                    <option value="finance_manager">Finance Manager</option>
+                    <option value="viewer">Viewer</option>
+                </select>
+                <input id="user-department" placeholder="Department">
+                <select id="user-locale" required>
+                    <option value="ar">{{ texts.arabic }}</option>
+                    <option value="en">{{ texts.english }}</option>
+                </select>
+                <button type="submit">{{ texts.create_user }}</button>
+            </form>
+        </article>
+
+        <article class="panel inner-panel">
+            <h3>{{ texts.assign_user_to_project }}</h3>
+            <form id="membership-form" class="inline-form">
+                <select id="membership-user" required></select>
+                <select id="membership-role" required>
+                    <option value="member">{{ texts.member }}</option>
+                    <option value="owner">{{ texts.owner }}</option>
+                </select>
+                <button type="submit">{{ texts.assign_user_to_project }}</button>
+            </form>
+            <div id="membership-list" class="record-list"></div>
+        </article>
+    </section>
+</section>
+{% endblock %}

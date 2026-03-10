@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block screen %}onboarding{% endblock %}
+
+{% block content %}
+<section class="grid two-columns">
+    <article class="panel">
+        <h2>{{ texts.company_setup }}</h2>
+        <p>{{ texts.company_setup_intro }}</p>
+        <form id="company-form" class="inline-form">
+            <input id="company-code" placeholder="{{ texts.company_code }}" required>
+            <input id="company-name" placeholder="{{ texts.company_name }}" required>
+            <button type="submit">{{ texts.add_company }}</button>
+        </form>
+        <div id="company-list" class="record-list"></div>
+    </article>
+
+    <article class="panel">
+        <h2>{{ texts.onboarding_project_setup }}</h2>
+        <p>{{ texts.onboarding_project_intro }}</p>
+        <form id="onboarding-project-form" class="inline-form">
+            <input id="onboarding-project-code" placeholder="{{ texts.project_code }}" required>
+            <input id="onboarding-project-name-ar" placeholder="{{ texts.project_name_ar }}" required>
+            <input id="onboarding-project-name-en" placeholder="{{ texts.project_name_en }}" required>
+            <input id="onboarding-project-currency" placeholder="{{ texts.currency }}" value="USD" required>
+            <button type="submit">{{ texts.create_project }}</button>
+        </form>
+        <div class="actions">
+            <a class="link-button" id="onboarding-finish" href="{{ url_for('web.projects_screen') }}">{{ texts.finish_onboarding }}</a>
+        </div>
+    </article>
+</section>
+{% endblock %}

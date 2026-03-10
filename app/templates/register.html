@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block screen %}register{% endblock %}
+
+{% block content %}
+<section class="single-column hero-card">
+    <article class="panel narrow-panel">
+        <h2>{{ texts.registration }}</h2>
+        <p>{{ texts.registration_intro }}</p>
+        <form id="register-form">
+            <label>
+                <span>{{ texts.full_name }}</span>
+                <input id="register-full-name" required>
+            </label>
+            <label>
+                <span>{{ texts.email }}</span>
+                <input id="register-email" type="email" required>
+            </label>
+            <label>
+                <span>{{ texts.password }}</span>
+                <input id="register-password" type="password" required>
+            </label>
+            <label>
+                <span>{{ texts.preferred_locale }}</span>
+                <select id="register-locale" required>
+                    <option value="ar">{{ texts.arabic }}</option>
+                    <option value="en">{{ texts.english }}</option>
+                </select>
+            </label>
+            <div class="actions">
+                <button type="submit">{{ texts.create_account_and_continue }}</button>
+                <a class="link-button ghost-button" href="{{ url_for('web.login_screen') }}">{{ texts.login }}</a>
+            </div>
+        </form>
+        <pre id="register-status" class="status-box"></pre>
+    </article>
+</section>
+{% endblock %}

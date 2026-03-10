@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block screen %}project-workspace{% endblock %}
+{% block body_attrs %}data-project-id="{{ request.view_args.project_id }}"{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <div class="panel-header workspace-header">
+        <div>
+            <h2 id="workspace-project-title">{{ texts.project_finance_workspace }}</h2>
+            <p id="workspace-readiness" class="workspace-subtitle"></p>
+        </div>
+        <div class="actions">
+            <select id="project-switcher"></select>
+            <select id="workspace-fiscal-year"></select>
+            <a class="link-button ghost-button" id="config-link" href="#">{{ texts.project_configuration }}</a>
+        </div>
+    </div>
+
+    <section class="grid metrics-grid">
+        <article class="metric-card">
+            <span>{{ texts.total_fiscal_years }}</span>
+            <strong id="metric-fiscal-years">0</strong>
+        </article>
+        <article class="metric-card">
+            <span>{{ texts.total_accounts }}</span>
+            <strong id="metric-accounts">0</strong>
+        </article>
+        <article class="metric-card">
+            <span>{{ texts.total_budgets }}</span>
+            <strong id="metric-budgets">0</strong>
+        </article>
+        <article class="metric-card">
+            <span>{{ texts.budget_amount }}</span>
+            <strong id="metric-budget-total">0.00</strong>
+        </article>
+    </section>
+
+    <section class="workspace-tabs stacked-tabs">
+        <button type="button" class="tab-button is-active" data-workspace-tab="journals">{{ texts.journal_entries }}</button>
+        <button type="button" class="tab-button" data-workspace-tab="ledger">{{ texts.general_ledger }}</button>
+        <button type="button" class="tab-button" data-workspace-tab="trial-balance">{{ texts.trial_balance }}</button>
+        <button type="button" class="tab-button" data-workspace-tab="transfers">{{ texts.project_transfers }}</button>
+        <button type="button" class="tab-button" data-workspace-tab="exports">{{ texts.exports }}</button>
+    </section>
+
+    <section class="workspace-section" data-tab-panel="journals">
+        <div class="section-layout">
+            <form id="journal-form" class="inline-form">
+                <h3>{{ texts.create_journal_entry }}</h3>
+                <input id="journal-date" type="date" required>
+                <input id="journal-description" placeholder="{{ texts.journal_description }}" required>
+                <select id="journal-debit-account" required></select>
+                <input id="journal-debit-amount" type="number" min="0" step="0.01" placeholder="{{ texts.debit_amount }}" required>
+                <select id="journal-credit-account" required></select>
+                <input id="journal-credit-amount" type="number" min="0" step="0.01" placeholder="{{ texts.credit_amount }}" required>
+                <button type="submit">{{ texts.create_journal_entry }}</button>
+            </form>
+            <div>
+                <h3>{{ texts.journal_entries }}</h3>
+                <div id="journal-list" class="record-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="workspace-section is-hidden" data-tab-panel="ledger">
+        <div class="section-layout">
+            <div class="inline-form">
+                <h3>{{ texts.general_ledger }}</h3>
+                <select id="ledger-account"></select>
+                <button type="button" id="load-ledger-button">{{ texts.load_ledger }}</button>
+            </div>
+            <div>
+                <h3>{{ texts.general_ledger }}</h3>
+                <div id="ledger-list" class="record-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="workspace-section is-hidden" data-tab-panel="trial-balance">
+        <h3>{{ texts.trial_balance }}</h3>
+        <div id="trial-balance-list" class="record-list"></div>
+        <div id="trial-balance-totals" class="workspace-subtitle"></div>
+    </section>
+
+    <section class="workspace-section is-hidden" data-tab-panel="transfers">
+        <div class="section-layout">
+            <form id="transfer-form" class="inline-form">
+                <h3>{{ texts.create_project_transfer }}</h3>
+                <input id="transfer-date" type="date" required>
+                <input id="transfer-description" placeholder="{{ texts.transfer_description }}" required>
+                <select id="transfer-destination-project" required></select>
+                <select id="transfer-destination-fiscal-year" required></select>
+                <select id="transfer-source-account" required></select>
+                <select id="transfer-destination-account" required></select>
+                <input id="transfer-amount" type="number" min="0.01" step="0.01" placeholder="{{ texts.transfer_amount }}" required>
+                <button type="submit">{{ texts.create_project_transfer }}</button>
+            </form>
+            <div>
+                <h3>{{ texts.project_transfers }}</h3>
+                <div id="transfer-list" class="record-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="workspace-section is-hidden" data-tab-panel="exports">
+        <h3>{{ texts.exports }}</h3>
+        <div class="actions export-actions">
+            <a class="link-button" id="project-finance-excel" href="#">{{ texts.export_project_excel }}</a>
+            <a class="link-button" id="project-finance-pdf" href="#">{{ texts.export_project_pdf }}</a>
+            <a class="link-button ghost-button" id="fiscal-finance-excel" href="#">{{ texts.export_fiscal_excel }}</a>
+            <a class="link-button ghost-button" id="fiscal-finance-pdf" href="#">{{ texts.export_fiscal_pdf }}</a>
+        </div>
+    </section>
+</section>
+{% endblock %}

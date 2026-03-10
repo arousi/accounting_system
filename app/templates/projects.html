@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block screen %}projects{% endblock %}
+
+{% block content %}
+<section class="grid two-columns">
+    <article class="panel">
+        <div class="panel-header">
+            <h2>{{ texts.projects }}</h2>
+            <div class="actions">
+                <select id="company-switcher"></select>
+                <a class="link-button ghost-button" href="{{ url_for('web.onboarding_screen') }}">{{ texts.add_company }}</a>
+                <button type="button" id="logout-button">{{ texts.logout }}</button>
+            </div>
+        </div>
+        <p id="projects-user-summary" class="workspace-subtitle"></p>
+        <ul id="project-list" class="project-list"></ul>
+    </article>
+
+    <article class="panel">
+        <h2>{{ texts.create_project }}</h2>
+        <form id="project-form" class="inline-form">
+            <input id="project-code" placeholder="{{ texts.project_code }}" required>
+            <input id="project-name-ar" placeholder="{{ texts.project_name_ar }}" required>
+            <input id="project-name-en" placeholder="{{ texts.project_name_en }}" required>
+            <input id="project-currency" placeholder="{{ texts.currency }}" value="USD" required>
+            <button type="submit">{{ texts.create_project }}</button>
+        </form>
+        <div class="actions export-actions">
+            <a class="link-button" id="excel-export" href="#">Excel</a>
+            <a class="link-button" id="pdf-export" href="#">PDF</a>
+        </div>
+    </article>
+</section>
+{% endblock %}

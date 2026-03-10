@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="{{ locale }}" dir="{{ 'rtl' if locale == 'ar' else 'ltr' }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ texts.app_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body data-locale="{{ locale }}">
+    <main class="shell">
+        <section class="hero">
+            <div>
+                <p class="eyebrow">{{ texts.default_admin }}: admin@example.com / Admin@12345</p>
+                <h1>{{ texts.app_title }}</h1>
+                <p>{{ texts.subtitle }}</p>
+            </div>
+            <div class="locale-switcher">
+                <button type="button" data-locale-switch="ar">العربية</button>
+                <button type="button" data-locale-switch="en">English</button>
+            </div>
+        </section>
+
+        <section class="grid">
+            <article class="panel">
+                <h2>{{ texts.login }}</h2>
+                <form id="login-form">
+                    <label>
+                        <span>{{ texts.email }}</span>
+                        <input id="email" type="email" value="admin@example.com" required>
+                    </label>
+                    <label>
+                        <span>{{ texts.password }}</span>
+                        <input id="password" type="password" value="Admin@12345" required>
+                    </label>
+                    <div class="actions">
+                        <button type="submit">{{ texts.login }}</button>
+                        <button type="button" id="logout-button">{{ texts.logout }}</button>
+                    </div>
+                </form>
+            </article>
+
+            <article class="panel">
+                <h2>{{ texts.session_status }}</h2>
+                <p id="session-state">{{ texts.inactive }}</p>
+                <pre id="session-json"></pre>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <h2>{{ texts.projects }}</h2>
+                <div class="actions">
+                    <a class="link-button" id="excel-export" href="#">Excel</a>
+                    <a class="link-button" id="pdf-export" href="#">PDF</a>
+                </div>
+            </div>
+            <form id="project-form" class="project-form">
+                <input id="project-code" placeholder="{{ texts.project_code }}" required>
+                <input id="project-name-ar" placeholder="{{ texts.project_name_ar }}" required>
+                <input id="project-name-en" placeholder="{{ texts.project_name_en }}" required>
+                <input id="project-currency" placeholder="{{ texts.currency }}" value="USD" required>
+                <button type="submit">{{ texts.create_project }}</button>
+            </form>
+            <ul id="project-list" class="project-list"></ul>
+        </section>
+
+        <section class="panel workspace-panel">
+            <div class="panel-header workspace-header">
+                <div>
+                    <h2>{{ texts.project_workspace }}</h2>
+                    <p id="workspace-project-name" class="workspace-subtitle">{{ texts.select_project }}</p>
+                </div>
+                <div class="workspace-tabs">
+                    <button type="button" class="tab-button is-active" data-workspace-tab="overview">{{ texts.overview }}</button>
+                    <button type="button" class="tab-button" data-workspace-tab="fiscal-years">{{ texts.fiscal_years }}</button>
+                    <button type="button" class="tab-button" data-workspace-tab="accounts">{{ texts.chart_of_accounts }}</button>
+                    <button type="button" class="tab-button" data-workspace-tab="budgets">{{ texts.budgets }}</button>
+                </div>
+            </div>
+
+            <div id="workspace-empty" class="empty-state">{{ texts.select_project }}</div>
+
+            <div id="workspace-content" class="workspace-content is-hidden">
+                <section class="workspace-section" data-tab-panel="overview">
+                    <h3>{{ texts.project_overview }}</h3>
+                    <div class="metrics-grid">
+                        <article class="metric-card">
+                            <span>{{ texts.total_fiscal_years }}</span>
+                            <strong id="metric-fiscal-years">0</strong>
+                        </article>
+                        <article class="metric-card">
+                            <span>{{ texts.total_accounts }}</span>
+                            <strong id="metric-accounts">0</strong>
+                        </article>
+                        <article class="metric-card">
+                            <span>{{ texts.total_budgets }}</span>
+                            <strong id="metric-budgets">0</strong>
+                        </article>
+                        <article class="metric-card">
+                            <span>{{ texts.budget_amount }}</span>
+                            <strong id="metric-budget-total">0.00</strong>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="workspace-section is-hidden" data-tab-panel="fiscal-years">
+                    <div class="section-layout">
+                        <form id="fiscal-year-form" class="inline-form">
+                            <h3>{{ texts.create_fiscal_year }}</h3>
+                            <input id="fiscal-year-code" placeholder="{{ texts.fiscal_year_code }}" required>
+                            <input id="fiscal-year-name" placeholder="{{ texts.fiscal_year_name }}" required>
+                            <input id="fiscal-year-start" type="date" required>
+                            <input id="fiscal-year-end" type="date" required>
+                            <button type="submit">{{ texts.create_fiscal_year }}</button>
+                        </form>
+                        <div>
+                            <h3>{{ texts.fiscal_years }}</h3>
+                            <div id="fiscal-year-list" class="record-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="workspace-section is-hidden" data-tab-panel="accounts">
+                    <div class="section-layout">
+                        <form id="account-form" class="inline-form">
+                            <h3>{{ texts.create_account }}</h3>
+                            <input id="account-code" placeholder="{{ texts.account_code }}" required>
+                            <input id="account-name-ar" placeholder="{{ texts.account_name_ar }}" required>
+                            <input id="account-name-en" placeholder="{{ texts.account_name_en }}" required>
+                            <select id="account-type" required></select>
+                            <select id="statement-type" required></select>
+                            <button type="submit">{{ texts.create_account }}</button>
+                        </form>
+                        <div>
+                            <h3>{{ texts.chart_of_accounts }}</h3>
+                            <div id="account-list" class="record-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="workspace-section is-hidden" data-tab-panel="budgets">
+                    <div class="section-layout">
+                        <form id="budget-form" class="inline-form">
+                            <h3>{{ texts.create_budget }}</h3>
+                            <input id="budget-name" placeholder="{{ texts.budget_name }}" required>
+                            <select id="budget-fiscal-year" required></select>
+                            <select id="budget-account" required></select>
+                            <input id="budget-amount" type="number" min="0" step="0.01" placeholder="{{ texts.amount }}" required>
+                            <button type="submit">{{ texts.create_budget }}</button>
+                        </form>
+                        <div>
+                            <h3>{{ texts.budgets }}</h3>
+                            <div id="budget-list" class="record-list"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        window.APP_TEXTS = {{ texts_json | safe }};
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="{{ locale }}" dir="{{ 'rtl' if locale == 'ar' else 'ltr' }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ texts.app_title }} | {{ page_title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body data-locale="{{ locale }}" data-screen="{% block screen %}{% endblock %}" {% block body_attrs %}{% endblock %}>
+    <header class="topbar">
+        <div>
+            <p class="eyebrow">{{ texts.default_admin }}: admin@example.com / Admin@12345</p>
+            <h1>{{ texts.app_title }}</h1>
+        </div>
+        <div class="topbar-actions">
+            <nav class="top-nav">
+                <a href="{{ url_for('web.projects_screen') }}">{{ texts.projects }}</a>
+            </nav>
+            <div class="locale-switcher">
+                <button type="button" data-locale-switch="ar">العربية</button>
+                <button type="button" data-locale-switch="en">English</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="shell">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        window.APP_TEXTS = {{ texts_json | safe }};
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
